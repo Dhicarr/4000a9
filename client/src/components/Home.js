@@ -62,16 +62,14 @@ const Home = ({ user, logout }) => {
     });
   };
 
-  const postMessage = (body) => {
+  const postMessage = async (body) => {
     try {
-      const data = saveMessage(body);
-
+      const data = await saveMessage(body);
       if (!body.conversationId) {
         addNewConvo(body.recipientId, data.message);
       } else {
         addMessageToConversation(data);
       }
-
       sendMessage(data, body);
     } catch (error) {
       console.error(error);
@@ -88,6 +86,7 @@ const Home = ({ user, logout }) => {
         }
       });
       setConversations(conversations);
+      fetchConversations();
     },
     [setConversations, conversations],
   );
@@ -112,6 +111,7 @@ const Home = ({ user, logout }) => {
         }
       });
       setConversations(conversations);
+      fetchConversations();
     },
     [setConversations, conversations],
   );
@@ -147,7 +147,14 @@ const Home = ({ user, logout }) => {
       }),
     );
   }, []);
-
+  const fetchConversations = async () => {
+    try {
+      const { data } = await axios.get("/api/conversations");
+      setConversations(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   // Lifecycle
 
   useEffect(() => {
@@ -179,14 +186,6 @@ const Home = ({ user, logout }) => {
   }, [user, history, isLoggedIn]);
 
   useEffect(() => {
-    const fetchConversations = async () => {
-      try {
-        const { data } = await axios.get("/api/conversations");
-        setConversations(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     if (!user.isFetching) {
       fetchConversations();
     }
