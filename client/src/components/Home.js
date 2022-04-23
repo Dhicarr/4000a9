@@ -78,15 +78,17 @@ const Home = ({ user, logout }) => {
 
   const addNewConvo = useCallback(
     (recipientId, message) => {
-      conversations.forEach((convo) => {
-        if (convo.otherUser.id === recipientId) {
-          convo.messages.push(message);
-          convo.latestMessageText = message.text;
-          convo.id = message.conversationId;
-        }
+      setConversations((prev)=>{
+        let newConversations = [...prev]; 
+        newConversations.forEach((convo) => {
+          if (convo.otherUser.id === recipientId) {
+            convo.messages.push(message);
+            convo.latestMessageText = message.text;
+            convo.id = message.conversationId;
+          }
+        });
+        return newConversations;
       });
-      setConversations(conversations);
-      fetchConversations();
     },
     [setConversations, conversations],
   );
@@ -103,15 +105,16 @@ const Home = ({ user, logout }) => {
         newConvo.latestMessageText = message.text;
         setConversations((prev) => [newConvo, ...prev]);
       }
-
-      conversations.forEach((convo) => {
-        if (convo.id === message.conversationId) {
-          convo.messages.push(message);
-          convo.latestMessageText = message.text;
-        }
+      setConversations((prev)=>{
+        let newConversations = [...prev]; 
+        newConversations.forEach((convo) => {
+          if (convo.id === message.conversationId) {
+            convo.messages.push(message);
+            convo.latestMessageText = message.text;
+          }
+        });
+        return newConversations;
       });
-      setConversations(conversations);
-      fetchConversations();
     },
     [setConversations, conversations],
   );
@@ -147,14 +150,6 @@ const Home = ({ user, logout }) => {
       }),
     );
   }, []);
-  const fetchConversations = async () => {
-    try {
-      const { data } = await axios.get("/api/conversations");
-      setConversations(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   // Lifecycle
 
   useEffect(() => {
@@ -186,6 +181,15 @@ const Home = ({ user, logout }) => {
   }, [user, history, isLoggedIn]);
 
   useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        const { data } = await axios.get("/api/conversations");
+        data[0].messages.reverse();
+        setConversations(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (!user.isFetching) {
       fetchConversations();
     }
