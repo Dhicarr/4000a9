@@ -112,11 +112,4 @@ code {
   .side-image{
     display:none;
   }
-  .register-wrapper{
-  }
-
-}
-@media only screen and (max-width: 750px){
-  .form-form{
-  }
 }
