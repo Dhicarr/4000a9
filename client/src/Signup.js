@@ -10,10 +10,10 @@ import {
   FormHelperText,
 } from '@material-ui/core';
 
-const Signup = ({ user, register }) => {
+const Signup = ({ user, register, classes}) => {
 
   const history = useHistory();
-
+  const imgsrc=require("./images/bubble.svg").default;
   const [formErrorMessage, setFormErrorMessage] = useState({});
 
   const handleRegister = async (event) => {
@@ -37,55 +37,42 @@ const Signup = ({ user, register }) => {
   }, [user, history]);
 
   return (
-    <Grid className='screen-wrapper' container>
-      <Box className='side-image' >
-        <img src={require("./images/bubble.svg").default} alt="bubble"/>
+    <Grid className={classes.screenWrapper}>
+      <Box className={classes.sideImage} >
+        <img src={imgsrc} className={classes.sideImage_img} alt="bubble"/>
         <Typography
-          className='side-image-text'
-          style={{
-            "fontSize": "calc(16vw/10)",
-            "width":"calc(200vw/10)"
-          }}>
+            className={classes.sideImage_text}
+          >
           Converse with anyone with any language
         </Typography>
       </Box>
 
-      <Box className='right-side-wrapper'>
-        <Grid className='top-button-wrapper'>
-          <Typography
-            className='top-tip'
-            style={{
-            "fontSize": "max(14px,calc(14vw/10))",
-            }}
-          >
+      <Box className={classes.rightSideWrapper}>
+        <Grid className={classes.topButtonWrapper}>
+          <Typography className={classes.topButton_tip}>
             Already have an account?
           </Typography>
-          <Link href="/login" to="/login" style={{ textDecoration: 'none' }}>
-            <Button variant="text" className='top-button' style={{fontSize: "max(16px,calc(14vw/10))"}}>Login</Button>
+          <Link href="/login" to="/login" className={classes.topButton_link}>
+            <Button variant="text" className={classes.topButton_btn} style={{width: 'clamp(100px,calc(140vw/10),200px)'}}>Login</Button>
           </Link>
         </Grid>
         <form onSubmit={handleRegister}>
-          <Grid className='register-wrapper'>
-            <Grid style={{"alignSelf":"flex-start"}}>
-              <Typography
-                className='form-text'
-                style={{
-                  "fontSize": "max(20px,calc(20vw/10))",
-                  "textAlign": "left",
-                }}
-                >Create an account.
+          <Grid className={classes.formWrapper} style={{height: 'min(424px, 60vh)'}}>
+            <Grid className={classes.form_headingWrapper}>
+            <Typography className={classes.form_heading}>
+                Create an account.
               </Typography>
             </Grid>
             <Grid>
               <FormControl>
                 <TextField
-                  className='form-textfield'
+                  className={classes.form_textfield}
                   aria-label="username"
                   label="Username"
                   name="username"
                   type="text"
-                  inputProps={{ style: {fontSize: "max(16px,calc(12vw/10))"} }}
-                  InputLabelProps={{style: {fontSize: "max(16px,calc(12vw/10))"}}}
+                  inputProps={{ classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   required
                 />
               </FormControl>
@@ -93,12 +80,12 @@ const Signup = ({ user, register }) => {
             <Grid>
               <FormControl>
                 <TextField
-                  className='form-textfield'
+                  className={classes.form_textfield}
                   label="E-mail address"
                   aria-label="e-mail address"
                   type="email"
-                  inputProps={{ style: {fontSize: "max(16px,calc(12vw/10))"} }}
-                  InputLabelProps={{style: {fontSize: "max(16px,calc(12vw/10))"}}}
+                  inputProps={{ classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   name="email"
                   required
                 />
@@ -107,12 +94,12 @@ const Signup = ({ user, register }) => {
             <Grid>
               <FormControl error={!!formErrorMessage.confirmPassword}>
                 <TextField
-                  className='form-textfield'
+                  className={classes.form_textfield}
                   aria-label="password"
                   label="Password"
                   type="password"
-                  inputProps={{ minLength:6, style: {fontSize: "max(16px,calc(12vw/10))"} }}
-                  InputLabelProps={{style: {fontSize: "max(16px,calc(12vw/10))"}}}
+                  inputProps={{ minLength:6, classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   name="password"
                   required
                 />
@@ -124,12 +111,12 @@ const Signup = ({ user, register }) => {
             <Grid>
               <FormControl error={!!formErrorMessage.confirmPassword}>
                 <TextField
-                  className='form-textfield'
+                  className={classes.form_textfield}
                   label="Confirm Password"
                   aria-label="confirm password"
                   type="password"
-                  inputProps={{ minLength:6, style: {fontSize: "max(16px,calc(12vw/10))"} }}
-                  InputLabelProps={{style: {fontSize: "max(16px,calc(12vw/10))"}}}
+                  inputProps={{ minLength:6, classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   name="confirmPassword"
                   required
                 />
@@ -138,18 +125,11 @@ const Signup = ({ user, register }) => {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Button
-              className='form-submit-button'
-              type="submit"
-              style={{
-                backgroundColor: "#3A8DFF",
-                color: "white",
-                fontSize: "max(16px,calc(14vw/10))",
-                marginTop: "max(25px,calc(14vw/10))"
-               }}
-            >
-            Create
-            </Button>
+            <Grid>
+              <Button className={classes.form_submitBtn} type="submit">
+              Create
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Box>

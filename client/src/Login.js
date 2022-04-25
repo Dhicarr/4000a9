@@ -9,9 +9,9 @@ import {
   TextField,
 } from '@material-ui/core';
 
-const Login = ({ user, login }) => {
+const Login = ({ user, login, classes }) => {
   const history = useHistory();
-
+  const imgsrc=require("./images/bubble.svg").default;
   const handleLogin = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -27,79 +27,59 @@ const Login = ({ user, login }) => {
   }, [user, history]);
 
   return (
-    <Grid container className='screen-wrapper'>
-      <Box className='side-image' >
-          <img src={require("./images/bubble.svg").default} alt="bubble"/>
+    <Grid container className={classes.screenWrapper}>
+      <Box className={classes.sideImage} >
+          <img src={imgsrc} className={classes.sideImage_img} alt="bubble"/>
           <Typography
-            className='side-image-text'
-            style={{
-              "fontSize": "calc(16vw/10)",
-              "width":"calc(200vw/10)"
-            }}>
+            className={classes.sideImage_text}
+          >
             Converse with anyone with any language
           </Typography>
       </Box>
-      <Box className='right-side-wrapper'>
-        <Grid className='top-button-wrapper'>
-          <Typography
-          className='top-tip'
-          style={{
-            "fontSize": "max(14px,calc(14vw/10))",
-          }}
-        >
-        Need to register?
-        </Typography>
-        <Link href="/register" to="/register" style={{ textDecoration: 'none' }}>
-          <Button variant="text" className='top-button' style={{fontSize: "max(16px,calc(14vw/10))"}}>Register</Button>
-        </Link>
+      <Box className={classes.rightSideWrapper}>
+        <Grid className={classes.topButtonWrapper}>
+          <Typography className={classes.topButton_tip}>
+            Don't have an account?
+          </Typography>
+          <Link href="/register" to="/register" className={classes.topButton_link}>
+            <Button variant="text" className={classes.topButton_btn} style={{width: 'max(100px,calc(170vw/10))'}}>Create Account</Button>
+          </Link>
         </Grid>
         <form onSubmit={handleLogin}>
-          <Grid className='login-wrapper'>
-            <Grid style={{"alignSelf":"flex-start"}}>
-                <Typography
-                  className='form-text'
-                  style={{
-                    "fontSize": "max(20px,calc(20vw/10))",
-                    "textAlign": "left",
-                  }}
-                  >Welcome Back!
-                </Typography>
-              </Grid>
-              <Grid>
+          <Grid className={classes.formWrapper} style={{height: 'min(358px, 51vw)'}}>
+            <Grid className={classes.form_headingWrapper}>
+              <Typography className={classes.form_heading}>
+                Welcome Back!
+              </Typography>
+            </Grid>
+            <Grid>
               <FormControl margin="normal" required>
                 <TextField
-                  className='form-textfield'
+                  className={classes.form_textfield}
                   aria-label="username"
                   label="Username"
                   name="username"
                   type="text"
-                  inputProps={{ style: {fontSize: "max(16px,calc(12vw/10))"} }}
-                  InputLabelProps={{style: {fontSize: "max(16px,calc(12vw/10))"}}}
+                  inputProps={{ classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                 />
               </FormControl>
             </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                className='form-textfield'
-                label="Password"
-                aria-label="password"
-                type="password"
-                inputProps={{ minLength: 6, style: {fontSize: "max(16px,calc(12vw/10))"} }}
-                InputLabelProps={{style: {fontSize: "max(16px,calc(12vw/10))"}}}
-                name="password"
-              />
-            </FormControl>
             <Grid>
-              <Button 
-                className='form-submit-button'
-                type="submit"
-                style={{
-                  backgroundColor: "#3A8DFF",
-                  color: "white",
-                  fontSize: "max(16px,calc(14vw/10))",
-                  marginTop: "max(25px,calc(14vw/10))"
-                 }}
-                >
+              <FormControl margin="normal" required>
+                <TextField
+                  className={classes.form_textfield}
+                  label="Password"
+                  aria-label="password"
+                  type="password"
+                  inputProps={{ minLength:6, classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
+                  name="password"
+                />
+              </FormControl>
+            </Grid>
+            <Grid>
+              <Button className={classes.form_submitBtn} type="submit">
                 Login
               </Button>
             </Grid>
