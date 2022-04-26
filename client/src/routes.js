@@ -9,6 +9,10 @@ import { SocketContext, socket } from "./context/socket";
 
 import bgImage from "./images/bg-img.png";
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  Box,
+  Typography
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   screenWrapper:{
@@ -38,13 +42,13 @@ const useStyles = makeStyles((theme) => ({
   },
   sideImage_text: {
     fontSize: "min(26px,calc(26vw/10))",
-    width:"min(269px,calc(269vw/10))"
+    width:"min(269px,calc(269vw/10))",
+    marginBottom: 'calc(120vw/10)'
   },
   sideImage_img:{
     width:'min(160px,calc(67vw/10))',
     height:'min(160px,calc(67vw/10))',
-    marginTop: '-60px',
-    marginBottom: 'calc(35vw/10)'
+    marginBottom: 'calc(40vw/10)'
   },
   rightSideWrapper:{
     display:'flex',
@@ -70,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   topButton_link:{
     textDecoration: 'none'
   },
-  topButton_btn:{
+  topButton_btn_register:{
     height: 'max(50px,calc(54vw/10))',
     padding: '2em',
     marginLeft:'2em',
@@ -78,16 +82,39 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: `0 calc(2vw / 10) calc(12vw / 10) rgba(74, 106, 149, 0.2)`,
     fontSize: 'max(14px,calc(14vw/10))',
     color: '#3A8DFF',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    width: 'max(100px,calc(170vw/10))'
   },
-  formWrapper:{
+  topButton_btn_login:{
+    height: 'max(50px,calc(54vw/10))',
+    padding: '2em',
+    marginLeft:'2em',
+    background: '#FFFFFF',
+    boxShadow: `0 calc(2vw / 10) calc(12vw / 10) rgba(74, 106, 149, 0.2)`,
+    fontSize: 'max(14px,calc(14vw/10))',
+    color: '#3A8DFF',
+    textDecoration: 'none',
+    width: 'clamp(100px,calc(140vw/10),200px)'
+  },
+  loginWrapper:{
     display:'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: 'fit-content',
     margin: 'auto',
-    marginBottom:'calc(172vw/70)'
+    marginBottom:'calc(172vw/70)',
+    height: 'min(358px, 51vw)'
+  },
+  registerWrapper:{
+    display:'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 'fit-content',
+    margin: 'auto',
+    marginBottom:'calc(172vw/70)',
+    height: 'min(424px, 60vh)'
   },
   form_headingWrapper:{
     alignSelf:'flex-start'
@@ -98,13 +125,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold'
   },
   form_textfield:{
-    width: 'max(200px,calc(300vw/10))',
-    height: 'max(50px,calc(45vw/10))',
-    fontSize: 'max(16px,calc(12vw/10))'
+    width: '37vw',
+    height: 'calc(50vw/10)'
   },
   form_submitBtn:{
-    width: 'clamp(100px,calc(160vw/10),250px)',
-    height: 'clamp(40px,calc(56vw/10),76px)',
+    width: 'max(100px,calc(160vw/10))',
+    height: 'max(40px,calc(56vw/10))',
     borderRadius: 'calc(3vw/10)',
     backgroundColor: "#3A8DFF",
     color: "white",
@@ -115,9 +141,28 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   textboxLabels:{
-    fontSize: "max(16px,calc(14vw/10))"
+    fontSize: "max(12px,calc(16vw/10))",
+    top:'-5px'
+  },
+  textboxInput:{
+    fontSize: "calc(26vw/10)",
+
   }
 }));
+
+const sideImage = (classes) =>{
+  const imgsrc=require("./images/bubble.svg").default;
+  return(
+    <Box className={classes.sideImage} >
+    <img src={imgsrc} className={classes.sideImage_img} alt="bubble"/>
+    <Typography
+      className={classes.sideImage_text}
+    >
+      Converse with anyone with any language
+    </Typography>
+    </Box>
+  );
+}
 
 const Routes = (props) => {
   const [user, setUser] = useState({
@@ -127,6 +172,7 @@ const Routes = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const classes=useStyles();
+  const sideImageProp=sideImage(classes);
   const login = async (credentials) => {
     try {
       const { data } = await axios.post("/auth/login", credentials);
@@ -211,11 +257,11 @@ const Routes = (props) => {
       <Switch>
         <Route
           path="/login"
-          render={() => <Login user={user} login={login} classes={classes}/>}
+          render={() => <Login user={user} login={login} classes={classes} sideImage={sideImageProp}/>}
         />
         <Route
           path="/register"
-          render={() => <Signup user={user} register={register} classes={classes}/>}
+          render={() => <Signup user={user} register={register} classes={classes} sideImage={sideImageProp}/>}
         />
         <Route
           exact
@@ -224,7 +270,7 @@ const Routes = (props) => {
             user?.id ? (
               <Home user={user} logout={logout} />
             ) : (
-              <Signup user={user} register={register} classes={classes}/>
+              <Signup user={user} register={register} classes={classes} sideImage={sideImageProp}/>
             )
           }
         />

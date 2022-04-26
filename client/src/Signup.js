@@ -10,10 +10,9 @@ import {
   FormHelperText,
 } from '@material-ui/core';
 
-const Signup = ({ user, register, classes}) => {
+const Signup = ({ user, register, classes, sideImage}) => {
 
   const history = useHistory();
-  const imgsrc=require("./images/bubble.svg").default;
   const [formErrorMessage, setFormErrorMessage] = useState({});
 
   const handleRegister = async (event) => {
@@ -38,26 +37,18 @@ const Signup = ({ user, register, classes}) => {
 
   return (
     <Grid className={classes.screenWrapper}>
-      <Box className={classes.sideImage} >
-        <img src={imgsrc} className={classes.sideImage_img} alt="bubble"/>
-        <Typography
-            className={classes.sideImage_text}
-          >
-          Converse with anyone with any language
-        </Typography>
-      </Box>
-
+      {sideImage}
       <Box className={classes.rightSideWrapper}>
         <Grid className={classes.topButtonWrapper}>
           <Typography className={classes.topButton_tip}>
             Already have an account?
           </Typography>
           <Link href="/login" to="/login" className={classes.topButton_link}>
-            <Button variant="text" className={classes.topButton_btn} style={{width: 'clamp(100px,calc(140vw/10),200px)'}}>Login</Button>
+            <Button variant="text" className={classes.topButton_btn_login}>Login</Button>
           </Link>
         </Grid>
         <form onSubmit={handleRegister}>
-          <Grid className={classes.formWrapper} style={{height: 'min(424px, 60vh)'}}>
+          <Grid className={classes.registerWrapper}>
             <Grid className={classes.form_headingWrapper}>
             <Typography className={classes.form_heading}>
                 Create an account.
@@ -71,7 +62,7 @@ const Signup = ({ user, register, classes}) => {
                   label="Username"
                   name="username"
                   type="text"
-                  inputProps={{ classes:{root: classes.textboxLabels}}}
+                  inputProps={{ classes:{root: classes.textboxInput}}}
                   InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   required
                 />
@@ -84,7 +75,7 @@ const Signup = ({ user, register, classes}) => {
                   label="E-mail address"
                   aria-label="e-mail address"
                   type="email"
-                  inputProps={{ classes:{root: classes.textboxLabels}}}
+                  inputProps={{ classes:{root: classes.textboxInput}}}
                   InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   name="email"
                   required
@@ -98,7 +89,7 @@ const Signup = ({ user, register, classes}) => {
                   aria-label="password"
                   label="Password"
                   type="password"
-                  inputProps={{ minLength:6, classes:{root: classes.textboxLabels}}}
+                  inputProps={{ minLength:6, classes:{root: classes.textboxInput}}}
                   InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   name="password"
                   required
@@ -115,7 +106,7 @@ const Signup = ({ user, register, classes}) => {
                   label="Confirm Password"
                   aria-label="confirm password"
                   type="password"
-                  inputProps={{ minLength:6, classes:{root: classes.textboxLabels}}}
+                  inputProps={{ minLength:6, classes:{root: classes.textboxInput}}}
                   InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                   name="confirmPassword"
                   required

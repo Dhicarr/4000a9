@@ -9,9 +9,9 @@ import {
   TextField,
 } from '@material-ui/core';
 
-const Login = ({ user, login, classes }) => {
+const Login = ({ user, login, classes, sideImage }) => {
   const history = useHistory();
-  const imgsrc=require("./images/bubble.svg").default;
+
   const handleLogin = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -28,25 +28,18 @@ const Login = ({ user, login, classes }) => {
 
   return (
     <Grid container className={classes.screenWrapper}>
-      <Box className={classes.sideImage} >
-          <img src={imgsrc} className={classes.sideImage_img} alt="bubble"/>
-          <Typography
-            className={classes.sideImage_text}
-          >
-            Converse with anyone with any language
-          </Typography>
-      </Box>
+      {sideImage}
       <Box className={classes.rightSideWrapper}>
         <Grid className={classes.topButtonWrapper}>
           <Typography className={classes.topButton_tip}>
             Don't have an account?
           </Typography>
           <Link href="/register" to="/register" className={classes.topButton_link}>
-            <Button variant="text" className={classes.topButton_btn} style={{width: 'max(100px,calc(170vw/10))'}}>Create Account</Button>
+            <Button variant="text" className={classes.topButton_btn_register}>Create Account</Button>
           </Link>
         </Grid>
         <form onSubmit={handleLogin}>
-          <Grid className={classes.formWrapper} style={{height: 'min(358px, 51vw)'}}>
+          <Grid className={classes.loginWrapper}>
             <Grid className={classes.form_headingWrapper}>
               <Typography className={classes.form_heading}>
                 Welcome Back!
