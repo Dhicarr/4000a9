@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@material-ui/core';
 
-const Login = ({ user, login }) => {
+const Login = ({ user, login, classes, sideImage }) => {
   const history = useHistory();
 
   const handleLogin = async (event) => {
@@ -27,36 +27,52 @@ const Login = ({ user, login }) => {
   }, [user, history]);
 
   return (
-    <Grid container justifyContent="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Link href="/register" to="/register">
-            <Button>Register</Button>
+    <Grid container className={classes.screenWrapper}>
+      {sideImage}
+      <Box className={classes.rightSideWrapper}>
+        <Grid className={classes.topButtonWrapper}>
+          <Typography className={classes.topButton_tip}>
+            Don't have an account?
+          </Typography>
+          <Link href="/register" to="/register" className={classes.topButton_link}>
+            <Button variant="text" className={classes.topButton_btn_register}>Create Account</Button>
           </Link>
         </Grid>
         <form onSubmit={handleLogin}>
-          <Grid>
+          <Grid className={classes.loginWrapper}>
+            <Grid className={classes.form_headingWrapper}>
+              <Typography className={classes.form_heading}>
+                Welcome Back!
+              </Typography>
+            </Grid>
             <Grid>
               <FormControl margin="normal" required>
                 <TextField
+                  className={classes.form_textfield}
                   aria-label="username"
                   label="Username"
                   name="username"
                   type="text"
+                  inputProps={{ classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
                 />
               </FormControl>
             </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
             <Grid>
-              <Button type="submit" variant="contained" size="large">
+              <FormControl margin="normal" required>
+                <TextField
+                  className={classes.form_textfield}
+                  label="Password"
+                  aria-label="password"
+                  type="password"
+                  inputProps={{ minLength:6, classes:{root: classes.textboxLabels}}}
+                  InputLabelProps={{ classes:{root: classes.textboxLabels}}}
+                  name="password"
+                />
+              </FormControl>
+            </Grid>
+            <Grid>
+              <Button className={classes.form_submitBtn} type="submit">
                 Login
               </Button>
             </Grid>
