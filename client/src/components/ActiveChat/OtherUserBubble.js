@@ -4,7 +4,7 @@ import { Box, Typography, Avatar } from '@material-ui/core';
 
 
 
-const OtherUserBubble = ({ text, time, otherUser, images }) => {
+const OtherUserBubble = ({ text, time, otherUser, images, selector }) => {
   const [width, setWidth] = useState(null);
   const useStyles = makeStyles(() => ({
     root: {
@@ -86,32 +86,10 @@ const OtherUserBubble = ({ text, time, otherUser, images }) => {
         setWidth(textfield.getBoundingClientRect().width);
     }
   }, []);
-  let imageClass=null;
-  let textClass=null;
 
-  if (images.length>1){
-    if (text.length>0){
-      imageClass=classes.textImage_multiple;
-      textClass=classes.bubble_multiple;
-    }
-    else{
-      imageClass=classes.textImage_noText;
-    }
-  }
-  else if (images.length===1){
-    if (text.length>0){
-      imageClass=classes.textImage_single;
-      textClass=classes.bubble_single;
-    }
-    else{
-      imageClass=classes.textImage_noText;
-    }
-  }
-  else {
-    if (text.length>0){
-      textClass=classes.bubble_noImage;
-    }
-  }
+  let select=selector(images, text, classes);
+  let imageClass=select[0];
+  let textClass=select[1];
 
   return (
     <Box className={classes.root}>

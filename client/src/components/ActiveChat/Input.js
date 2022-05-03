@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FormControl, FilledInput, IconButton, Box} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import axios from "axios";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -33,28 +34,26 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     setText(event.target.value);
   };
 
-	const fileChangeHandler = async (event) => {
+  const fileChangeHandler = async (event) => {
     for (let i = 0; i < event.target.files.length; i++) {
       setImages((prev) => [...prev, event.target.files[i]]);
     }
-	};
+  };
 
-	const fileSubmitHandler = async () => {
-    let data=[];
-    const formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      let file = images[i];
-      formData.append("file", file);
-      formData.append("upload_preset", "r6j17w9i");
-      const response = await fetch("https://api.cloudinary.com/v1_1/dtbvvi5fx/image/upload", {
-        method: "POST",
-        body: formData
-      })
-      const result = await response.json();
-      data.push(result.url);
-    }
-    return data;
-	};
+  const fileSubmitHandler = async () => {
+    const instance = axios.create();
+    const promises = images.map(image => {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('upload_preset', 'r6j17w9i');
+      return instance.post(
+        'https://api.cloudinary.com/v1_1/dtbvvi5fx/image/upload',
+        formData
+      );
+    });
+    const results = await Promise.all(promises);
+    return results.map(result => result.data.url);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -75,7 +74,6 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   };
 
   return (
-    <div>
       <form className={classes.root} onSubmit={handleSubmit}>
         <FormControl fullWidth hiddenLabel>
           <Box className={classes.UploadWrapper}>
@@ -96,7 +94,6 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
           />
         </FormControl>
       </form>
-    </div>
   );
 };
 
