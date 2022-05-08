@@ -90,7 +90,7 @@ const Home = ({ user, logout }) => {
         return newConversations;
       });
     },
-    [setConversations, conversations],
+    [setConversations],
   );
   const addMessageToConversation = useCallback(
     (data) => {
@@ -116,7 +116,7 @@ const Home = ({ user, logout }) => {
         return newConversations;
       });
     },
-    [setConversations, conversations],
+    [setConversations],
   );
 
   const setActiveChat = (username) => {
@@ -184,7 +184,7 @@ const Home = ({ user, logout }) => {
     const fetchConversations = async () => {
       try {
         const { data } = await axios.get("/api/conversations");
-        data[0].messages.reverse();
+        if (data[0]) data[0].messages.reverse();
         setConversations(data);
       } catch (error) {
         console.error(error);
