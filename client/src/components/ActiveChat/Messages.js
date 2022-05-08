@@ -12,25 +12,25 @@ const Messages = (props) => {
     
     if (images.length>1) {
       if (text.length>0) {
-        imageClass=classes.textImage_multiple;
-        textClass=classes.bubble_multiple;
+        imageClass=classes.textImageMultiple;
+        textClass=classes.bubbleMultiple;
       }
       else{
-        imageClass=classes.textImage_noText;
+        imageClass=classes.textImageNoText;
       }
     }
     else if (images.length===1){
       if (text.length>0){
-        imageClass=classes.textImage_single;
-        textClass=classes.bubble_single;
+        imageClass=classes.textImageSingle;
+        textClass=classes.bubbleSingle;
       }
       else{
-        imageClass=classes.textImage_noText;
+        imageClass=classes.textImageNoText;
       }
     }
     else {
       if (text.length>0){
-        textClass=classes.bubble_noImage;
+        textClass=classes.bubbleNoImage;
       }
     }
     return [imageClass, textClass];

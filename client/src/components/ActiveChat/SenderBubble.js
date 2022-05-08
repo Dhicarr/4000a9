@@ -31,7 +31,7 @@ const SenderBubble = ({ time, text, images, selector }) => {
       justifyContent: 'flex-end',
       maxWidth: '960px'
     },
-    bubble_single: {
+    bubbleSingle: {
       background: '#F4F6FA',
       borderRadius: '0 0 0 10px',
       minWidth:'150px',
@@ -39,16 +39,16 @@ const SenderBubble = ({ time, text, images, selector }) => {
       textAlign:'right',
       marginTop:'-35px'
     },
-    bubble_multiple: {
+    bubbleMultiple: {
       background: '#F4F6FA',
       borderRadius: '10px 10px 0 10px',
       marginBottom: 6
     },
-    bubble_noImage: {
+    bubbleNoImage: {
       background: '#F4F6FA',
       borderRadius: '10px 10px 0 10px'
     },
-    textImage_single:{
+    textImageSingle:{
       minHeight:'112px',
       minWidth:'150px',
       width: width,
@@ -57,13 +57,13 @@ const SenderBubble = ({ time, text, images, selector }) => {
       maxHeight:'30vw',
       borderRadius: '10px 10px 0 10px',
     },
-    textImage_multiple:{
+    textImageMultiple:{
       width:'100px',
       height:'70px',
       margin:6,
       borderRadius: '10px 10px 0 10px'
     },
-    textImage_noText:{
+    textImageNoText:{
       width:'150px',
       height:'150px',
       marginLeft:6,
@@ -81,17 +81,25 @@ const SenderBubble = ({ time, text, images, selector }) => {
   let select=selector(images, text, classes);
   let imageClass=select[0];
   let textClass=select[1];
+  
+  const TextBubble=()=>{
+    return (
+      <Box className={textClass} ref={ref}>
+        <Typography className={classes.text}>{text}</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box className={classes.root}>
-        {!(text.length > 0 && imageClass===classes.textImage_multiple) &&
+        {!(text.length > 0 && imageClass===classes.textImageMultiple) &&
           <Typography className={classes.date}>{time}</Typography>
         }
-        {text.length > 0 && imageClass===classes.textImage_multiple &&
-          <Box className={textClass} ref={ref}>
-            <Typography className={classes.text}>{text}</Typography>
-          </Box>
+
+        {text.length > 0 && imageClass===classes.textImageMultiple &&
+          <TextBubble/>
         }
+
         {images.length > 0 &&
           <Box className={classes.textImageWrapper}>
             {images.map((images) => { 
@@ -99,12 +107,12 @@ const SenderBubble = ({ time, text, images, selector }) => {
             )}
           </Box>
         }
-        {text.length > 0 && imageClass!==classes.textImage_multiple &&
-          <Box className={textClass} ref={ref}>
-            <Typography className={classes.text}>{text}</Typography>
-          </Box>
+
+        {text.length > 0 && imageClass!==classes.textImageMultiple &&
+          <TextBubble/>
         }
-        {text.length > 0 && imageClass===classes.textImage_multiple &&
+
+        {text.length > 0 && imageClass===classes.textImageMultiple &&
           <Typography className={classes.date}>{time}</Typography>
         }
     </Box>

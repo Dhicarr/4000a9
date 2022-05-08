@@ -37,7 +37,7 @@ const OtherUserBubble = ({ text, time, otherUser, images, selector }) => {
       justifyContent: 'flex-start',
       maxWidth: '960px'
     },
-    bubble_single: {
+    bubbleSingle: {
       backgroundImage: 'linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)',
       borderRadius: '0 0 10px 10px',
       width:"fit-content",
@@ -45,18 +45,18 @@ const OtherUserBubble = ({ text, time, otherUser, images, selector }) => {
       marginTop:'-37px',
       zIndex:1
     },
-    bubble_multiple: {
+    bubbleMultiple: {
       backgroundImage: 'linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)',
       borderRadius: '0 10px 10px 10px',
       width:'fit-content',
       marginBottom: 6
     },
-    bubble_noImage: {
+    bubbleNoImage: {
       backgroundImage: 'linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)',
       borderRadius: '0 10px 10px 10px',
       width:'fit-content'
     },
-    textImage_single:{
+    textImageSingle:{
       minHeight:'112px',
       minWidth:'150px',
       width: width,
@@ -66,13 +66,13 @@ const OtherUserBubble = ({ text, time, otherUser, images, selector }) => {
       borderRadius: '0 10px 10px 10px',
       zIndex:-1
     },
-    textImage_multiple:{
+    textImageMultiple:{
       width:'100px',
       height:'70px',
       margin:6,
       borderRadius: '0 10px 10px 10px'
     },
-    textImage_noText:{
+    textImageNoText:{
       width:'150px',
       height:'150px',
       marginRight:6,
@@ -91,6 +91,14 @@ const OtherUserBubble = ({ text, time, otherUser, images, selector }) => {
   let imageClass=select[0];
   let textClass=select[1];
 
+  const TextBubble=()=>{
+    return (
+      <Box className={textClass} ref={ref}>
+        <Typography className={classes.text}>{text}</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box className={classes.root}>
       <Avatar
@@ -99,27 +107,23 @@ const OtherUserBubble = ({ text, time, otherUser, images, selector }) => {
         className={classes.avatar}
       />
       <Box>
-        {!(text.length > 0 && imageClass===classes.textImage_multiple) &&
+        {!(text.length > 0 && imageClass===classes.textImageMultiple) &&
           <Typography className={classes.usernameDate}>
             {otherUser.username} {time}
           </Typography>
         }
-        {text.length > 0 && imageClass===classes.textImage_multiple &&
-          <Box className={textClass} ref={ref}>
-            <Typography className={classes.text}>{text}</Typography>
-          </Box>
+        {text.length > 0 && imageClass===classes.textImageMultiple &&
+          <TextBubble/>
         }
         <Box className={classes.textImageWrapper}>
           {images.map((images) => { 
             return <img key={images} alt="textImage" className={imageClass} src={[images]}/>}
           )}
         </Box>
-        {text.length > 0 && imageClass!==classes.textImage_multiple &&
-          <Box className={textClass} ref={ref}>
-            <Typography className={classes.text}>{text}</Typography>
-          </Box>
+        {text.length > 0 && imageClass!==classes.textImageMultiple &&
+          <TextBubble/>
         }
-        {text.length > 0 && imageClass===classes.textImage_multiple &&
+        {text.length > 0 && imageClass===classes.textImageMultiple &&
           <Typography className={classes.usernameDate}>
             {otherUser.username} {time}
           </Typography>

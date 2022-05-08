@@ -33,7 +33,6 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   const handleChange = (event) => {
     setText(event.target.value);
   };
-
   const fileChangeHandler = async (event) => {
     for (let i = 0; i < event.target.files.length; i++) {
       setImages((prev) => [...prev, event.target.files[i]]);
@@ -45,7 +44,7 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     const promises = images.map(image => {
       const formData = new FormData();
       formData.append('file', image);
-      formData.append('upload_preset', 'r6j17w9i');
+      formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
       return instance.post(
         'https://api.cloudinary.com/v1_1/dtbvvi5fx/image/upload',
         formData
